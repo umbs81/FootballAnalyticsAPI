@@ -1,0 +1,842 @@
+{
+	"info": {
+		"_postman_id": "b781b5df-f1f7-4049-88ee-7f4de4ad1ca3",
+		"name": "Football Analytics API",
+		"description": "The Football Analytics API is a service that provides statistics, evaluations, ratings, and predictions related to soccer matches. This service allows users to access a wide range of detailed information about matches, including team data, match results, statistics, ratings, and predictions based on advanced machine learning models.\n\nThe Football Analytics API is a valuable resource for football enthusiasts, sports analysts, and bettors, providing unprecedented access to a wide range of statistical data, ratings, and predictions related to football matches. This service is built upon advanced machine learning models and evaluation algorithms to offer an in-depth view of football matches and teams, thereby enhancing the understanding of the game and enabling more informed decision-making.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11876427"
+	},
+	"item": [
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Event by idfixture",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/events?idfixture=1900088",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "idfixture",
+									"value": "1900088"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event by date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the 'data' array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.exist.and.to.be.an('array').with.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The idfixture should be a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(fixture) {",
+									"    pm.expect(fixture.idfixture).to.be.a('number').and.to.be.at.least(0, \"idfixture should be a non-negative integer\");",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/events?date=2023-09-30",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2023-09-30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event by competition",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the 'data' array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate that idfixture is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    ",
+									"    responseData.data.forEach(function(fixture){",
+									"        pm.expect(fixture.idfixture).to.exist.and.to.be.a('number').and.to.be.at.least(0);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the match_date is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"    ",
+									"    responseData.data.forEach(function (fixture) {",
+									"        pm.expect(fixture.match_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/events?competition=Serie A&country=Italy&season=2022",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "competition",
+									"value": "Serie A"
+								},
+								{
+									"key": "country",
+									"value": "Italy"
+								},
+								{
+									"key": "season",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event by home team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'match_date' is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"",
+									"  responseData.data.forEach(function (fixture) {",
+									"    pm.expect(fixture.match_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/events?competition=Serie A&country=Italy&season=2022&home=AS Roma",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "competition",
+									"value": "Serie A"
+								},
+								{
+									"key": "country",
+									"value": "Italy"
+								},
+								{
+									"key": "season",
+									"value": "2022"
+								},
+								{
+									"key": "home",
+									"value": "AS Roma"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event by away team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the 'data' array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1, \"Array should contain at least one element\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the match_date is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.be.an('array').that.is.not.empty;",
+									"    ",
+									"    responseData.data.forEach(function (event) {",
+									"        pm.expect(event.match_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that half_time_result and full_time_result are in a valid score format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  ",
+									"  responseData.data.forEach(function (event) {",
+									"    pm.expect(event.half_time_result).to.match(/^\\d+-\\d+$/, \"Invalid score format\");",
+									"    pm.expect(event.full_time_result).to.match(/^\\d+-\\d+$/, \"Invalid score format\");",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/events?competition=Serie A&country=Italy&season=2022&away=AC Milan",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "competition",
+									"value": "Serie A"
+								},
+								{
+									"key": "country",
+									"value": "Italy"
+								},
+								{
+									"key": "season",
+									"value": "2022"
+								},
+								{
+									"key": "away",
+									"value": "AC Milan"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "The \"Events\" endpoint of the Football Analytics API is a vital component for football enthusiasts, sports analysts, and data researchers seeking access to comprehensive match-related information. This endpoint provides a detailed breakdown of team performances during football matches. Below is a detailed description of how this endpoint is useful and the advantages it offers:\n\n**Utility of the \"Events\" Endpoint**\n\n1. Detailed Match Analysis:  \n    Football enthusiasts can utilize this endpoint to gain an in-depth understanding of matches, including information about teams, results, events, half-time and full-time scores. These details are essential for examining how a match unfolded, which teams participated, and how they played.\n    \n2. Strategy Development:  \n    Bettors and sports analysts can leverage this endpoint to develop betting strategies and tactical analysis. For example, analyzing events and halftime scores can reveal trends or gameplay patterns that can be useful for betting or gaining a better understanding of team performances.\n    \n3. Verification of Predictions:  \n    Those who follow match result predictions can use this endpoint to verify their predictions and see how matches actually played out. This allows for assessing the accuracy of predictions and improving prediction strategies.\n    \n4. Match History:  \n    This endpoint provides access to an extensive archive of past matches, enabling users to examine and review historical events, team performances, and results.\n    \n5. Understanding Team Performances:  \n    Sports analysts can use event and halftime score information to evaluate team performances in various aspects of the game, such as ball possession, created opportunities, and solid defenses.\n    \n\n**Advantages of the \"Events\" Endpoint**\n\n1. Comprehensive Details:  \n    It provides detailed data on each match, including halftime results, final scores, and key events, allowing for thorough analysis.\n    \n2. Historical Retrospective:  \n    Thanks to the extensive availability of historical data, users can examine the evolution of team performances over time and assess trends.\n    \n\n**Next Events:** only events scheduled in the next 36 hours are available."
+		},
+		{
+			"name": "Analysis",
+			"item": [
+				{
+					"name": "Statistics by idfixture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the data object\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.exist.and.to.be.an('object');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate that the 'home' and 'away' fields are non-empty strings\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data.home).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"    pm.expect(responseData.data.away).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the match_date is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data.match_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/, \"Invalid date format\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/statistics?idfixture=1900088",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "idfixture",
+									"value": "1900088"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings by idfixture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the goals_frequency object has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data.ratings.goals_frequency).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.data.ratings.goals_frequency).to.have.property('description');",
+									"    pm.expect(responseData.data.ratings.goals_frequency).to.have.property('current_season');",
+									"    pm.expect(responseData.data.ratings.goals_frequency).to.have.property('overall');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/ratings?idfixture=1900088",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"ratings"
+							],
+							"query": [
+								{
+									"key": "idfixture",
+									"value": "1900088"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stats & Ratings by idfixture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Home and away teams are non-empty strings\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data.home).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Home team should not be empty\");",
+									"  pm.expect(responseData.data.away).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Away team should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Match date is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.data.match_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/statisticsratings?idfixture=1900088",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"statisticsratings"
+							],
+							"query": [
+								{
+									"key": "idfixture",
+									"value": "1900088"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stats & Ratings between dates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response contains the 'data' field\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.have.property(\"data\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field is an array and not empty\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.data).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Data field should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the match_date field is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    ",
+									"    responseData.data.forEach(function (fixture) {",
+									"        pm.expect(fixture.match_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/statisticsratings?startDate=2023-09-27&endDate=2023-09-28",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"statisticsratings"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2023-09-27"
+								},
+								{
+									"key": "endDate",
+									"value": "2023-09-28"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "The **Analysis **group within the Football Analytics API offers a comprehensive suite of endpoints designed to provide users with in-depth statistics and ratings for football events. These endpoints empower users to access valuable insights into match performance and ratings, whether by specifying a unique match ID or defining a date range. Whether you're a passionate football enthusiast or a data-driven analyst, this group equips you with the tools needed to delve into the intricacies of football events and ratings."
+		},
+		{
+			"name": "Predictions",
+			"item": [
+				{
+					"name": "Predictions by idfixture",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-RapidAPI-Key",
+								"value": "{{X-RapidAPI-Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-RapidAPI-Host",
+								"value": "{{X-RapidAPI-Host}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://football-analytics-api.p.rapidapi.com/predictions?idfixture=1900088",
+							"protocol": "https",
+							"host": [
+								"football-analytics-api",
+								"p",
+								"rapidapi",
+								"com"
+							],
+							"path": [
+								"predictions"
+							],
+							"query": [
+								{
+									"key": "idfixture",
+									"value": "1900088"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "The **Predictions **group within the Football Analytics API introduces cutting-edge machine learning algorithms that provide insights into the likely outcomes of football matches. Users can access predictions such as the probability of a first-half goal, the likelihood of a match ending with over 2.5 goals, and forecasts regarding the potential defeat of the away team. Whether you're a sports bettor seeking informed decisions or a curious football enthusiast, this group equips you with predictive analytics to enhance your match-watching experience."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "X-RapidAPI-Key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "X-RapidAPI-Host",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
